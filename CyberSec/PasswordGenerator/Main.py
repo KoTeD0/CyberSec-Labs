@@ -7,6 +7,7 @@ from password_generator import *
 
 class PassGen(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
+        """initialize function and make actions to pressing buttons or checkbox"""
         super().__init__(parent)
         self.ui = Ui_PasswordGenerator()
         self.ui.setupUi(self)
@@ -30,11 +31,16 @@ class PassGen(QtWidgets.QMainWindow):
         }
 
     def chance_to(self, symbol):
+        """when checkbox uppercase and lowercase is TRUE we call this
+         function to make chance of returning Uppercase letters """
         if random.random() > 0.5:
             return symbol.upper()
         return symbol
 
     def generate_password(self):
+        """call function 'check clicked' to know what checkbox user checked and copy values of keys that we got
+        then check if user added custom value on password length or use default value, check exception VALUE ERROR if
+        user type in line 'password length' non int value, and INDEX ERROR if user didnt check any checkbox"""
         flags = self.check_clicked()
         list_of_allowed = []
         for key, value in flags.items():
@@ -60,6 +66,7 @@ class PassGen(QtWidgets.QMainWindow):
             self.show_error_window('You must check at least one checkbox')
 
     def show_error_window(self, info):
+        """callable function of Error window that takes param of info caused that Error"""
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
         msg.setText("Critical Error")
@@ -68,6 +75,7 @@ class PassGen(QtWidgets.QMainWindow):
         msg.exec_()
 
     def check_clicked(self):
+        """ checkbox statement and return flags"""
         flags = {"RU": False, "LAT": False, "NUM": False, "SYMBOL": False, "uppercase": False, "lowercase": False}
 
         if self.ui.box_latin.isChecked():
@@ -86,6 +94,7 @@ class PassGen(QtWidgets.QMainWindow):
         return flags
 
     def reset(self):
+        """function that resets all checkboxes and text lines"""
         self.ui.line_pass_len.clear()
         self.ui.line_rdy_pass.clear()
         self.ui.box_latin.setChecked(True)
